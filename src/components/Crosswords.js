@@ -1,6 +1,9 @@
 import React from 'react';
 import Crossword from './Crossword';
-import NewGame from './NewGame'
+import NewGame from './functional/NewGame';
+import {Route, withRouter} from "react-router-dom";
+import axios from 'axios';
+import Nav from './functional/Nav'
 
 class Crosswords extends React.Component {
   state = {
@@ -9,11 +12,16 @@ class Crosswords extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`http://localhost:3000/puzzles`)
-      .then(resp => resp.json())
-      .then(data => {
-        this.setState({puzzles: data})
+    axios
+      .get(`http://localhost:3001/puzzles`)
+      .then(response => {
+        console.log('response puzzles', response.data)
+        this.setState({
+          puzzles: response.data,
+          puzzle: {}
+        })
       })
+
   }
 
   createGrid = (data) => {
@@ -94,6 +102,7 @@ class Crosswords extends React.Component {
         findLetter(i).clueDown = down
       }
     }
+    console.log('boxes', gridBoxes)
     this.setState({
       puzzle: {
         grid: gridBoxes,
@@ -104,8 +113,12 @@ class Crosswords extends React.Component {
     })
   }
 
+
   handleNewGame = () => {
+    this.props.history.push("/crossword")
+    console.log('Im inside function', this.setState.puzzles)
     const newGame = this.state.puzzles[Math.floor(Math.random() * this.state.puzzles.length)]
+    console.log('new game', newGame)
     this.createGrid(newGame)
   }
 
@@ -113,12 +126,19 @@ class Crosswords extends React.Component {
     console.log('render in puzzle', this.state.puzzle)
     return (
       <div className="row">
+        <Route
+                exact
+                path={"/crossword"}
+                render={<Nav />}
+              />
+      
         {Object.keys(this.state.puzzle).length ?
-          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame} /> : 
+          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/>
+          : 
           <NewGame className="row" handleNewGame={this.handleNewGame}/> }
       </div>
     )
   }
 }
 
-export default Crosswords
+export default withRouter(Crosswords)

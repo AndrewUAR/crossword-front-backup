@@ -1,11 +1,8 @@
 
 import React, { Component } from "react";
 import axios from "axios";
-
-import Registration from "./auth/Registration";
-import Login from "./auth/Login";
 import Nav from "./functional/Nav"
-import NewGame from "./functional/NewGame";
+import Crosswords from "./Crosswords";
 
 
 export default class Home extends Component {
@@ -15,6 +12,7 @@ export default class Home extends Component {
     this.handleSuccessfulAuth = this.handleSuccessfulAuth.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
   }
+
 
   handleSuccessfulAuth(data) {
     this.props.handleLogin(data);
@@ -33,12 +31,13 @@ export default class Home extends Component {
       });
   }
 
+
   render() {
     return (
       <div>
         <Nav />
         <h1>Hello, {this.props.loggedInStatus}</h1>
-        <NewGame />
+        <Crosswords />
       </div>
     );
   }
