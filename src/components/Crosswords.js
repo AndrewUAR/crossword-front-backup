@@ -3,26 +3,14 @@ import Crossword from './Crossword';
 import NewGame from './functional/NewGame';
 import {Route, withRouter} from "react-router-dom";
 import axios from 'axios';
-import Nav from './functional/Nav'
+import Nav from './functional/Nav';
+import { Link } from 'react-router-dom'
 
 class Crosswords extends React.Component {
   state = {
-    puzzles : [],
     puzzle: []
   }
 
-  componentDidMount() {
-    axios
-      .get(`http://localhost:3001/puzzles`)
-      .then(response => {
-        console.log('response puzzles', response.data)
-        this.setState({
-          puzzles: response.data,
-          puzzle: {}
-        })
-      })
-
-  }
 
   createGrid = (data) => {
     const grid = data.gridLetters
@@ -115,27 +103,21 @@ class Crosswords extends React.Component {
 
 
   handleNewGame = () => {
-    this.props.history.push("/crossword")
-    console.log('Im inside function', this.setState.puzzles)
+    // this.props.history.push("/crossword")
+    console.log('Im inside function', this.props)
     const newGame = this.state.puzzles[Math.floor(Math.random() * this.state.puzzles.length)]
     console.log('new game', newGame)
     this.createGrid(newGame)
   }
 
   render(){
-    console.log('render in puzzle', this.state.puzzle)
+    console.log('render in puzzle', this.props)
     return (
-      <div className="row">
-        <Route
-                exact
-                path={"/crossword"}
-                render={<Nav />}
-              />
-      
-        {Object.keys(this.state.puzzle).length ?
-          <Crossword puzzle={this.state.puzzle} handleNewGame={this.handleNewGame}/>
-          : 
-          <NewGame className="row" handleNewGame={this.handleNewGame}/> }
+      <div>
+        <div><Nav /></div>
+        <div className="row">
+          
+        </div>
       </div>
     )
   }

@@ -14,6 +14,7 @@ class Crossword extends React.Component {
     }
   }
   
+  
   componentWillUpdate(prevProps){
     if(prevProps !== this.props) {
       this.setState({

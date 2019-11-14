@@ -5,7 +5,9 @@ import axios from "axios";
 import Home from "./components/Home";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/auth/Login";
-import Registration from "./components/auth/Registration"
+import Registration from "./components/auth/Registration";
+import Crosswords from "./components/Crosswords";
+import Crossword from "./components/Crossword"
 import './App.css';
 
 
@@ -148,6 +150,18 @@ export default class App extends Component {
                 />
               )}
             />
+
+            <Route
+              exact
+              path={"/crosswords"}
+              render={props => (
+                <Crosswords
+                  {...props}
+                  
+                />
+              )}
+            />
+
           </Switch>
         </BrowserRouter>
       </div>
